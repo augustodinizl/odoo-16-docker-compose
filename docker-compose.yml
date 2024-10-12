@@ -1,15 +1,16 @@
 version: '2'
+
 services:
   db:
     image: postgres:15
     user: root
     environment:
       - POSTGRES_USER=odoo
-      - POSTGRES_PASSWORD=odoo16@2022      
+      - POSTGRES_PASSWORD=odoo16@2022
       - POSTGRES_DB=postgres
-    restart: always             # run as a service
+    restart: always
     volumes:
-        - ./postgresql:/var/lib/postgresql/data
+      - ./postgresql:/var/lib/postgresql/data
 
   odoo16:
     image: odoo:16
@@ -18,7 +19,7 @@ services:
       - db
     ports:
       - "10016:8069"
-      - "20016:8072" # live chat
+      - "20016:8072"  # live chat
     tty: true
     command: --
     environment:
@@ -26,10 +27,11 @@ services:
       - USER=odoo
       - PASSWORD=odoo16@2022
     volumes:
-      #- /etc/timezone:/etc/timezone:ro
-      #- /etc/localtime:/etc/localtime:ro
-      # - ./entrypoint.sh:/entrypoint.sh   # if you want to install additional Python packages, uncomment this line!
       - ./addons:/mnt/extra-addons
       - ./etc:/etc/odoo
-    restart: always             # run as a service
+      - ./update_repos.sh:/usr/local/bin/update_repos.sh  # Montar o script de atualização
+      - ./repos.yml:/etc/repos.yml  # Montar o arquivo de repositórios
+    restart: always
+    entrypoint: ["/bin/bash", "-c", "/usr/local/bin/update_repos.sh && odoo"]
+
     
