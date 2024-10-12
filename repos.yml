@@ -1,1 +1,8 @@
+repos:
+  - repo: https://github.com/OCA/website.git
+    path: /mnt/extra-addons/website
+    branch: 16.0
+  - repo: https://github.com/OCA/server-tools.git
+    path: /mnt/extra-addons/server-tools
+    branch: 16.0
 
