@@ -1,5 +1,3 @@
-version: '2'
-
 services:
   db:
     image: postgres:15
@@ -32,6 +30,4 @@ services:
       - ./update_repos.sh:/usr/local/bin/update_repos.sh  # Montar o script de atualização
       - ./repos.yml:/etc/repos.yml  # Montar o arquivo de repositórios
     restart: always
-    entrypoint: ["/bin/bash", "-c", "/usr/local/bin/update_repos.sh && odoo"]
-
-    
+    entrypoint: ["/bin/bash", "-c", "/usr/local/bin/update_repos.sh"]
